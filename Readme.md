@@ -46,6 +46,7 @@ Clonar repositorio:
 ```console
 git clone https://github.com/capiloky/Api-Platform-Boilerplate
 cd Api-Platform-Boilerplate
+composer install
 ```
 
 Hacer migración :
