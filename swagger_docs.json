@@ -1,0 +1,1668 @@
+openapi: 3.0.3
+info:
+  title: 'API Boilerplate'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: /
+    description: ''
+paths:
+  /api/api_write_logs:
+    get:
+      operationId: getApiWriteLogCollection
+      tags:
+        - Log
+      responses:
+        200:
+          description: 'ApiWriteLog collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/ApiWriteLog.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiWriteLog'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiWriteLog'
+      summary: 'Retrieves the collection of ApiWriteLog resources.'
+      description: 'Retrieves the collection of ApiWriteLog resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/api_write_logs/{id}':
+    get:
+      operationId: getApiWriteLogItem
+      tags:
+        - Log
+      responses:
+        200:
+          description: 'ApiWriteLog resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApiWriteLog.jsonld'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiWriteLog'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ApiWriteLog'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a ApiWriteLog resource.'
+      description: 'Retrieves a ApiWriteLog resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/auth/connect/google:
+    ref: 'Google oauth'
+    post:
+      operationId: googleOauthItem
+      tags:
+        - Auth
+      responses:
+        204:
+          description: 'Refreshed JWT token'
+        401:
+          description: Unauthorized
+          content: []
+      summary: 'Google oauth.'
+      description: ''
+      parameters: []
+      deprecated: false
+    parameters: []
+  /api/auth/login:
+    ref: 'JWT Token'
+    post:
+      operationId: postCredentialsItem
+      tags:
+        - Auth
+      responses:
+        204:
+          description: 'Get JWT token'
+          content: []
+      summary: 'Get JWT token to login.'
+      description: ''
+      parameters: []
+      requestBody:
+        description: 'Generate new JWT Token'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+        required: false
+      deprecated: false
+    parameters: []
+  /api/auth/logout:
+    ref: Logout
+    post:
+      operationId: logoutItem
+      tags:
+        - Auth
+      responses:
+        200:
+          description: 'Logout Successfully'
+      summary: Logout.
+      description: ''
+      parameters: []
+      deprecated: false
+    parameters: []
+  /api/auth/refresh_token:
+    ref: 'Refresh JWT Token'
+    post:
+      operationId: refreshCredentialsItem
+      tags:
+        - Auth
+      responses:
+        204:
+          description: 'Refreshed JWT token'
+        401:
+          description: Unauthorized
+          content: []
+      summary: 'Refresh JWT token.'
+      description: ''
+      parameters: []
+      deprecated: false
+    parameters: []
+  /api/auth/register:
+    post:
+      operationId: postUserCollection
+      tags:
+        - Auth
+      responses:
+        201:
+          description: 'User resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User.jsonld-User.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-User.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/User-User.read'
+          links:
+            GetUserItem:
+              operationId: getUserItem
+              parameters:
+                id: '$response.body#/id'
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/users/{id}`.'
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a User resource.'
+      description: 'Creates a User resource.'
+      parameters: []
+      requestBody:
+        description: 'The new User resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/User.jsonld-User.write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User-User.write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/User-User.write'
+        required: true
+      deprecated: false
+    parameters: []
+  /api/auth/reset-password/check-token:
+    ref: 'Reset password check token'
+    post:
+      operationId: resetPasswordCheckTokenItem
+      tags:
+        - 'Auth Reset Password'
+      responses:
+        200:
+          description: 'Token checked.'
+        401:
+          description: Unauthorized.
+          content: []
+      summary: 'Reset password check token.'
+      description: ''
+      parameters: []
+      requestBody:
+        description: 'Reset password check token.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCheckTokenCredentials'
+        required: false
+      deprecated: false
+    parameters: []
+  /api/auth/reset-password/reset:
+    ref: 'Reset password'
+    post:
+      operationId: resetPasswordResetItem
+      tags:
+        - 'Auth Reset Password'
+      responses:
+        200:
+          description: 'Password reset.'
+        401:
+          description: Unauthorized.
+          content: []
+      summary: 'Reset password.'
+      description: ''
+      parameters: []
+      requestBody:
+        description: 'Reset password.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordResetCredentials'
+        required: false
+      deprecated: false
+    parameters: []
+  /api/auth/reset-password/send-email:
+    ref: 'Reset password send email'
+    post:
+      operationId: resetPasswordSendEmailItem
+      tags:
+        - 'Auth Reset Password'
+      responses:
+        200:
+          description: 'Email sended.'
+        401:
+          description: Unauthorized.
+          content: []
+      summary: 'Reset password send email.'
+      description: ''
+      parameters: []
+      requestBody:
+        description: 'Reset password send email.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordSendEmailCredentials'
+        required: false
+      deprecated: false
+    parameters: []
+  /api/auth/verification_email/resend:
+    ref: 'Resend verification email'
+    post:
+      operationId: resendVerificationEmailItem
+      tags:
+        - 'Auth Verify User Email'
+      responses:
+        200:
+          description: 'Resended verification email'
+        401:
+          description: Unauthorized
+          content: []
+      summary: 'Resend verification email.'
+      description: ''
+      parameters: []
+      deprecated: false
+    parameters: []
+  /api/auth/verification_email/verify:
+    ref: 'Verify User Email'
+    get:
+      operationId: verifyUserEmailItem
+      tags:
+        - 'Auth Verify User Email'
+      responses:
+        204:
+          description: 'Email verified'
+          content: []
+        401:
+          description: Unauthorized
+          content: []
+      summary: 'Verify User Email.'
+      description: ''
+      parameters:
+        -
+          name: expires
+          in: query
+          required: true
+          schema:
+            type: string
+        -
+          name: signature
+          in: query
+          required: true
+          schema:
+            type: string
+        -
+          name: extra
+          in: query
+          required: true
+          schema:
+            type: string
+      deprecated: false
+    parameters: []
+  /api/auth_logs:
+    get:
+      operationId: getAuthLogCollection
+      tags:
+        - Log
+      responses:
+        200:
+          description: 'AuthLog collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/AuthLog.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthLog'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthLog'
+      summary: 'Retrieves the collection of AuthLog resources.'
+      description: 'Retrieves the collection of AuthLog resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/auth_logs/{id}':
+    get:
+      operationId: getAuthLogItem
+      tags:
+        - Log
+      responses:
+        200:
+          description: 'AuthLog resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/AuthLog.jsonld'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthLog'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/AuthLog'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a AuthLog resource.'
+      description: 'Retrieves a AuthLog resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/user_images:
+    get:
+      operationId: getUserImageCollection
+      tags:
+        - UserImage
+      responses:
+        200:
+          description: 'UserImage collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/UserImage.jsonld-UserImage.read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserImage-UserImage.read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserImage-UserImage.read'
+      summary: 'Retrieves the collection of UserImage resources.'
+      description: 'Retrieves the collection of UserImage resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    post:
+      operationId: postUserImageCollection
+      tags:
+        - UserImage
+      responses:
+        201:
+          description: 'UserImage resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/UserImage.jsonld-UserImage.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserImage-UserImage.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/UserImage-UserImage.read'
+          links:
+            GetUserImageItem:
+              operationId: getUserImageItem
+              parameters:
+                id: '$response.body#/id'
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/user_images/{id}`.'
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a UserImage resource.'
+      description: 'Creates a UserImage resource.'
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+        required: false
+      deprecated: false
+    parameters: []
+  '/api/user_images/{id}':
+    get:
+      operationId: getUserImageItem
+      tags:
+        - UserImage
+      responses:
+        200:
+          description: 'UserImage resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/UserImage.jsonld-UserImage.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserImage-UserImage.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/UserImage-UserImage.read'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a UserImage resource.'
+      description: 'Retrieves a UserImage resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    delete:
+      operationId: deleteUserImageItem
+      tags:
+        - UserImage
+      responses:
+        204:
+          description: 'UserImage resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the UserImage resource.'
+      description: 'Removes the UserImage resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/user_roles:
+    get:
+      operationId: getUserRoleCollection
+      tags:
+        - UserRole
+      responses:
+        200:
+          description: 'UserRole collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/UserRole.jsonld-UserRole.read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRole-UserRole.read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRole-UserRole.read'
+      summary: 'Retrieves the collection of UserRole resources.'
+      description: 'Retrieves the collection of UserRole resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    post:
+      operationId: postUserRoleCollection
+      tags:
+        - UserRole
+      responses:
+        201:
+          description: 'UserRole resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/UserRole.jsonld-UserRole.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+          links:
+            GetUserRoleItem:
+              operationId: getUserRoleItem
+              parameters:
+                id: '$response.body#/id'
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/user_roles/{id}`.'
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a UserRole resource.'
+      description: 'Creates a UserRole resource.'
+      parameters: []
+      requestBody:
+        description: 'The new UserRole resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/UserRole.jsonld-UserRole.write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRole-UserRole.write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/UserRole-UserRole.write'
+        required: true
+      deprecated: false
+    parameters: []
+  '/api/user_roles/{id}':
+    get:
+      operationId: getUserRoleItem
+      tags:
+        - UserRole
+      responses:
+        200:
+          description: 'UserRole resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/UserRole.jsonld-UserRole.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a UserRole resource.'
+      description: 'Retrieves a UserRole resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    put:
+      operationId: putUserRoleItem
+      tags:
+        - UserRole
+      responses:
+        200:
+          description: 'UserRole resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/UserRole.jsonld-UserRole.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+          links:
+            GetUserRoleItem:
+              operationId: getUserRoleItem
+              parameters:
+                id: '$response.body#/id'
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/user_roles/{id}`.'
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Replaces the UserRole resource.'
+      description: 'Replaces the UserRole resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated UserRole resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/UserRole.jsonld-UserRole.write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRole-UserRole.write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/UserRole-UserRole.write'
+        required: true
+      deprecated: false
+    delete:
+      operationId: deleteUserRoleItem
+      tags:
+        - UserRole
+      responses:
+        204:
+          description: 'UserRole resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the UserRole resource.'
+      description: 'Removes the UserRole resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    patch:
+      operationId: patchUserRoleItem
+      tags:
+        - UserRole
+      responses:
+        200:
+          description: 'UserRole resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/UserRole.jsonld-UserRole.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/UserRole-UserRole.read'
+          links:
+            GetUserRoleItem:
+              operationId: getUserRoleItem
+              parameters:
+                id: '$response.body#/id'
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/user_roles/{id}`.'
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Updates the UserRole resource.'
+      description: 'Updates the UserRole resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated UserRole resource'
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/UserRole-UserRole.write'
+        required: true
+      deprecated: false
+    parameters: []
+  /api/users:
+    get:
+      operationId: getUserCollection
+      tags:
+        - User
+      responses:
+        200:
+          description: 'User collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/User.jsonld-User.read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-User.read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-User.read'
+      summary: 'Retrieves the collection of User resources.'
+      description: 'Retrieves the collection of User resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: id
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'id[]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+          allowReserved: false
+        -
+          name: email
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: username
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'order[id]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'order[createdAt]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'createdAt[before]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'createdAt[strictly_before]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'createdAt[after]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'createdAt[strictly_after]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: string
+          style: form
+          explode: false
+          allowReserved: false
+        -
+          name: 'groups[]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+          allowReserved: false
+        -
+          name: 'properties[]'
+          in: query
+          description: ''
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/users/{id}':
+    get:
+      operationId: getUserItem
+      tags:
+        - User
+      responses:
+        200:
+          description: 'User resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User.jsonld-User.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-User.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/User-User.read'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a User resource.'
+      description: 'Retrieves a User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    patch:
+      operationId: patchUserItem
+      tags:
+        - User
+      responses:
+        200:
+          description: 'User resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User.jsonld-User.read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-User.read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/User-User.read'
+          links:
+            GetUserItem:
+              operationId: getUserItem
+              parameters:
+                id: '$response.body#/id'
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/users/{id}`.'
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Updates the User resource.'
+      description: 'Updates the User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Resource identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated User resource'
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/User-User.write'
+        required: true
+      deprecated: false
+    parameters: []
+components:
+  schemas:
+    ApiWriteLog:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        message:
+          type: string
+        context:
+          type: array
+          items:
+            type: string
+        level:
+          type: integer
+        levelName:
+          type: string
+        extra:
+          type: array
+          items:
+            type: string
+        recordBy:
+          type: string
+          nullable: true
+        createdAt:
+          readOnly: true
+          type: string
+          format: date-time
+    ApiWriteLog.jsonld:
+      type: object
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        message:
+          type: string
+        context:
+          type: array
+          items:
+            type: string
+        level:
+          type: integer
+        levelName:
+          type: string
+        extra:
+          type: array
+          items:
+            type: string
+        recordBy:
+          type: string
+          nullable: true
+        createdAt:
+          readOnly: true
+          type: string
+          format: date-time
+    AuthLog:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        message:
+          type: string
+        context:
+          type: array
+          items:
+            type: string
+        level:
+          type: integer
+        levelName:
+          type: string
+        extra:
+          type: array
+          items:
+            type: string
+        recordBy:
+          type: string
+          nullable: true
+        createdAt:
+          readOnly: true
+          type: string
+          format: date-time
+    AuthLog.jsonld:
+      type: object
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        message:
+          type: string
+        context:
+          type: array
+          items:
+            type: string
+        level:
+          type: integer
+        levelName:
+          type: string
+        extra:
+          type: array
+          items:
+            type: string
+        recordBy:
+          type: string
+          nullable: true
+        createdAt:
+          readOnly: true
+          type: string
+          format: date-time
+    User-User.read:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: string
+          nullable: true
+        email:
+          format: email
+          externalDocs:
+            url: 'http://schema.org/email'
+          type: string
+        username:
+          minLength: 4
+          type: string
+        firstName:
+          minLength: 1
+          type: string
+        lastName:
+          minLength: 4
+          type: string
+        userImage:
+          externalDocs:
+            url: 'http://schema.org/image'
+          type: string
+          format: iri-reference
+          nullable: true
+        roles:
+          readOnly: true
+          type: array
+          items:
+            type: string
+      required:
+        - username
+        - firstName
+        - lastName
+    User-User.write:
+      type: object
+      properties:
+        email:
+          format: email
+          externalDocs:
+            url: 'http://schema.org/email'
+          type: string
+        username:
+          minLength: 4
+          type: string
+        firstName:
+          minLength: 1
+          type: string
+        lastName:
+          minLength: 4
+          type: string
+        userImage:
+          externalDocs:
+            url: 'http://schema.org/image'
+          type: string
+          format: iri-reference
+          nullable: true
+        password:
+          minLength: 8
+          pattern: '^(.*(?=.*?[a-zA-Z]).*)$'
+          type: string
+          nullable: true
+        userRoles:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+      required:
+        - username
+        - firstName
+        - lastName
+        - password
+    User.jsonld-User.read:
+      type: object
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: string
+          nullable: true
+        email:
+          format: email
+          externalDocs:
+            url: 'http://schema.org/email'
+          type: string
+        username:
+          minLength: 4
+          type: string
+        firstName:
+          minLength: 1
+          type: string
+        lastName:
+          minLength: 4
+          type: string
+        userImage:
+          externalDocs:
+            url: 'http://schema.org/image'
+          type: string
+          format: iri-reference
+          nullable: true
+        roles:
+          readOnly: true
+          type: array
+          items:
+            type: string
+      required:
+        - username
+        - firstName
+        - lastName
+    User.jsonld-User.write:
+      type: object
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        email:
+          format: email
+          externalDocs:
+            url: 'http://schema.org/email'
+          type: string
+        username:
+          minLength: 4
+          type: string
+        firstName:
+          minLength: 1
+          type: string
+        lastName:
+          minLength: 4
+          type: string
+        userImage:
+          externalDocs:
+            url: 'http://schema.org/image'
+          type: string
+          format: iri-reference
+          nullable: true
+        password:
+          minLength: 8
+          pattern: '^(.*(?=.*?[a-zA-Z]).*)$'
+          type: string
+          nullable: true
+        userRoles:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+      required:
+        - username
+        - firstName
+        - lastName
+        - password
+    UserImage-UserImage.read:
+      type: object
+      description: ''
+      externalDocs:
+        url: 'http://schema.org/MediaObject'
+      properties:
+        contentUrl:
+          externalDocs:
+            url: 'http://schema.org/contentUrl'
+          type: string
+          nullable: true
+        owner:
+          type: string
+          format: iri-reference
+          nullable: true
+    UserImage.jsonld-UserImage.read:
+      type: object
+      description: ''
+      externalDocs:
+        url: 'http://schema.org/MediaObject'
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        contentUrl:
+          externalDocs:
+            url: 'http://schema.org/contentUrl'
+          type: string
+          nullable: true
+        owner:
+          type: string
+          format: iri-reference
+          nullable: true
+    UserRole-UserRole.read:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+      required:
+        - name
+        - role
+    UserRole-UserRole.write:
+      type: object
+      required:
+        - name
+        - role
+      properties:
+        name:
+          type: string
+        role:
+          type: string
+    UserRole.jsonld-UserRole.read:
+      type: object
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+      required:
+        - name
+        - role
+    UserRole.jsonld-UserRole.write:
+      type: object
+      required:
+        - name
+        - role
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+    Credentials:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+          example: 'johndoe@example.com / johndoe'
+        password:
+          type: string
+          example: apassword
+        remember:
+          type: boolean
+          example: false
+    ResetPasswordCheckTokenCredentials:
+      type: object
+      properties:
+        token:
+          type: string
+          example: string
+    ResetPasswordResetCredentials:
+      type: object
+      properties:
+        token:
+          type: string
+          example: string
+        password:
+          type: string
+          example: string
+    ResetPasswordSendEmailCredentials:
+      type: object
+      properties:
+        email:
+          type: string
+          example: johndoe@example.com
+  responses: {  }
+  parameters: {  }
+  examples: {  }
+  requestBodies: {  }
+  headers: {  }
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      description: 'Value for the Authorization header parameter.'
+      name: Authorization
+      in: header
+security:
+  -
+    apiKey: []
+tags: []

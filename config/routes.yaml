@@ -1,0 +1,10 @@
+# Auth Routes | sintax ^/api/auth/*
+
+api_auth_login:
+  path: /api/auth/login
+
+api_auth_refresh_token:
+  path: /api/auth/refresh_token
+
+api_auth_logout:
+  path: /api/auth/logout

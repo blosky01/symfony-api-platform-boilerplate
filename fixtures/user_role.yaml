@@ -1,0 +1,13 @@
+App\Entity\UserRole:
+  user_role_1:
+    name: usuario
+    role: ROLE_USER
+  user_role_2:
+    name: administrador
+    role: ROLE_ADMIN
+  user_role_3:
+    name: "super administrador"
+    role: ROLE_SUPER_ADMIN
+  user_role_4:
+    name: mantenedor
+    role: ROLE_MANTAINER

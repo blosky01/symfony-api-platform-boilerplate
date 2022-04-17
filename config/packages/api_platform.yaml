@@ -1,0 +1,31 @@
+api_platform:
+    title: 'API Boilerplate'
+    version: '1.0.0'
+
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+
+    patch_formats:
+        json: ['application/merge-patch+json']
+
+    # Enable Swagger UI.
+    enable_swagger_ui: true
+
+    # Enable ReDoc.
+    enable_re_doc: true
+
+    # Enable the entrypoint.
+    enable_entrypoint: true
+
+    # Enable the docs.
+    enable_docs: true
+    
+    # Enable the data collector and the WebProfilerBundle integration.
+    enable_profiler: true
+
+    swagger:
+        versions: [3]
+        api_keys:
+             apiKey:
+                name: Authorization
+                type: header

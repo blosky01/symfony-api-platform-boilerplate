@@ -1,0 +1,50 @@
+App\Entity\User:
+  user_{1..235}:
+    firstName: <firstName()>
+    lastName: '<lastName()> <lastName()>'
+    username: testusername_<current()>
+    email: <email()>
+    emailVerify: true
+    locale: 'es'
+    password: \$2y\$04\$xO8IP5AM/uY/kY.ROF0MBueBQ4T3KgKszeS7cqIaibTlsA9OnQ7h6
+    userRoles: ['@user_role_1']
+  #USER TEST
+  user_236:
+    firstName: User
+    lastName: Test Test
+    username: test_user
+    email: user@test.com
+    emailVerify: true
+    locale: 'es'
+    password: \$2y\$04\$ru/Ssvb7gjTk.AU02obamu4OKzhJhEpsb/sgOaBvp58EjhwtCycea
+    userRoles: ['@user_role_1']
+  #ADMIN TEST
+  user_237:
+    firstName: Administrator
+    lastName: Test Test
+    username: test_admin
+    email: admin@test.com
+    emailVerify: true
+    locale: 'es'
+    password: \$2y\$04\$ru/Ssvb7gjTk.AU02obamu4OKzhJhEpsb/sgOaBvp58EjhwtCycea
+    userRoles: ['@user_role_1', '@user_role_2']
+  #SUPER ADMIN TEST
+  user_238:
+    firstName: 'Super Administrator'
+    lastName: 'Test Test'
+    username: 'test_superadmin'
+    email: 'superadmin@test.com'
+    emailVerify: true
+    locale: 'es'
+    password: \$2y\$04\$ru/Ssvb7gjTk.AU02obamu4OKzhJhEpsb/sgOaBvp58EjhwtCycea
+    userRoles: ['@user_role_1', '@user_role_2', '@user_role_3']
+  #MANTAINER TEST
+  user_239:
+    firstName: Mantainer
+    lastName: Test Test
+    username: test_mantainer
+    email: mantainer@test.com
+    emailVerify: true
+    locale: 'es'
+    password: \$2y\$04\$ru/Ssvb7gjTk.AU02obamu4OKzhJhEpsb/sgOaBvp58EjhwtCycea
+    userRoles: ['@user_role_1', '@user_role_2', '@user_role_3', '@user_role_4']
