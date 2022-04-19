@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken as BaseRefreshToken;
 
 #[ORM\Table(name: '`refresh_tokens`')]
-
+#[ORM\Entity()]
 class RefreshToken extends BaseRefreshToken
 {
 }
